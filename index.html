@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="hy">
 <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <meta charset="UTF-8">
     <title>Black & Yellow Destiny</title>
     <style>
@@ -9,15 +13,47 @@
         body {
             height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            /* Շքեղ սև և դեղին դինամիկ ֆոն */
             background: linear-gradient(-45deg, #FF0000, #FFD700, #FFD700, #FF0000);
             background-size: 400% 100%;
             animation: yellowGradient 20s ease infinite;
-            font-family: 'Arial Armenian', sans-serif;
+            font-family: 'Arial Armenian', 'Segoe UI', sans-serif;
             overflow: hidden;
             user-select: none;
+        }
+
+        /* Իջեցված տեքստ՝ գույների փոփոխությամբ */
+        .love-message {
+            position: absolute;
+            top: 150px; /* Էլի իջեցրեցի */
+            font-size: 45px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px 40px;
+            border-radius: 50px;
+            backdrop-filter: blur(8px);
+            border: 3px solid #000;
+            z-index: 100;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            
+            /* Անիմացիաներ՝ բաբախյուն և գույների փոփոխություն */
+            animation: heartbeat 2.5s ease-in-out infinite, colorShift 6s linear infinite;
+        }
+
+        /* Գույների փոփոխության էֆեկտը */
+        @keyframes colorShift {
+            0% { color: #000000; text-shadow: 2px 2px 10px rgba(255, 215, 0, 0.5); }
+            33% { color: #d40000; text-shadow: 2px 2px 15px rgba(255, 0, 0, 0.7); }
+            66% { color: #8e44ad; text-shadow: 2px 2px 15px rgba(142, 68, 173, 0.7); }
+            100% { color: #000000; text-shadow: 2px 2px 10px rgba(255, 215, 0, 0.5); }
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         @keyframes yellowGradient {
@@ -28,12 +64,12 @@
 
         .container {
             perspective: 1500px;
+            margin-top: 180px; 
         }
 
-        /* Շարիկի կառուցվածքը */
         .ball {
-            width: 700px;
-            height: 700px;
+            width: 500px; 
+            height: 500px;
             position: relative;
             transform-style: preserve-3d;
             cursor: pointer;
@@ -48,13 +84,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 151px;
+            font-size: 120px;
             font-weight: 900;
             backface-visibility: hidden;
             box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.3);
         }
 
-        /* Դեղին կողմը սև եզրագծով */
         .front {
             background: #f1c40f;
             color: #000;
@@ -62,7 +97,6 @@
             transform: rotateY(0deg);
         }
 
-        /* Սև կողմը դեղին եզրագծով */
         .back {
             background: #000;
             color: #f1c40f;
@@ -70,35 +104,24 @@
             transform: rotateY(180deg);
         }
 
-        /* Շարիկի փայլը */
         .side::after {
             content: '';
             position: absolute;
             top: 10%;
             left: 20%;
-            width: 50px;
-            height: 25px;
+            width: 40px;
+            height: 20px;
             background: rgba(255,255,255,0.4);
             border-radius: 50%;
             filter: blur(10px);
         }
-
-        .hint {
-            position: absolute;
-            bottom: 40px;
-            color: #f1c40f;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px black;
-            padding: 10px 20px;
-            border: 1px solid #f1c40f;
-            border-radius: 50px;
-            background: rgba(0,0,0,0.5);
-        }
     </style>
 </head>
 <body>
+
+    <div class="love-message">
+        Մարի Լյովը քեզ շատ ա սիրում 😍
+    </div>
 
     <div class="container">
         <div class="ball" id="ball" onclick="crazySpin()">
@@ -107,9 +130,17 @@
         </div>
     </div>
 
-    
-
     <script>
+        // Քեշի մաքրման ֆունկցիան
+        window.onload = function() {
+            localStorage.clear();
+            sessionStorage.clear();
+            if(!window.location.hash.includes('no-cache')) {
+                window.location.hash = 'no-cache';
+                window.location.reload(true);
+            }
+        };
+
         let rotationY = 0;
         let spinning = false;
 
@@ -119,20 +150,16 @@
 
             const ball = document.getElementById('ball');
             
-            // Պատահական պտույտներ և կողմ
             const rounds = (Math.floor(Math.random() * 5) + 7) * 360; 
             const side = Math.random() > 0.5 ? 0 : 180;
             
             rotationY += rounds + side + (360 - (rotationY % 360));
 
-            // Պատահական «խենթ» թեքություն տարբեր առանցքներով
             const tiltX = Math.floor(Math.random() * 100) - 50; 
             const tiltZ = Math.floor(Math.random() * 60) - 30;
 
-            // Կիրառում ենք անկանոն պտույտը
             ball.style.transform = `rotateY(${rotationY}deg) rotateX(${tiltX}deg) rotateZ(${tiltZ}deg)`;
 
-            // 3.5 վայրկյան հետո շարիկը ուղղվում է
             setTimeout(() => {
                 ball.style.transform = `rotateY(${rotationY}deg) rotateX(0deg) rotateZ(0deg)`;
                 spinning = false;
