@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <title>Black & Yellow Destiny</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Շքեղ սև և դեղին դինամիկ ֆոն */
+            background: linear-gradient(-45deg, #FF0000, #FFD700, #FFD700, #FF0000);
+            background-size: 400% 100%;
+            animation: yellowGradient 20s ease infinite;
+            font-family: 'Arial Armenian', sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        @keyframes yellowGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            perspective: 1500px;
+        }
+
+        /* Շարիկի կառուցվածքը */
+        .ball {
+            width: 250px;
+            height: 250px;
+            position: relative;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            transition: transform 3.5s cubic-bezier(0.15, 0.85, 0.35, 1.1);
+        }
+
+        .side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            font-weight: 900;
+            backface-visibility: hidden;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.3);
+        }
+
+        /* Դեղին կողմը սև եզրագծով */
+        .front {
+            background: #f1c40f;
+            color: #000;
+            border: 15px solid #000;
+            transform: rotateY(0deg);
+        }
+
+        /* Սև կողմը դեղին եզրագծով */
+        .back {
+            background: #000;
+            color: #f1c40f;
+            border: 15px solid #f1c40f;
+            transform: rotateY(180deg);
+        }
+
+        /* Շարիկի փայլը */
+        .side::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            width: 50px;
+            height: 25px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            filter: blur(10px);
+        }
+
+        .hint {
+            position: absolute;
+            bottom: 40px;
+            color: #f1c40f;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px black;
+            padding: 10px 20px;
+            border: 1px solid #f1c40f;
+            border-radius: 50px;
+            background: rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="ball" id="ball" onclick="crazySpin()">
+            <div class="side front">ԱՅՈ</div>
+            <div class="side back">ՈՉ</div>
+        </div>
+    </div>
+
+    
+
+    <script>
+        let rotationY = 0;
+        let spinning = false;
+
+        function crazySpin() {
+            if (spinning) return;
+            spinning = true;
+
+            const ball = document.getElementById('ball');
+            
+            // Պատահական պտույտներ և կողմ
+            const rounds = (Math.floor(Math.random() * 5) + 7) * 360; 
+            const side = Math.random() > 0.5 ? 0 : 180;
+            
+            rotationY += rounds + side + (360 - (rotationY % 360));
+
+            // Պատահական «խենթ» թեքություն տարբեր առանցքներով
+            const tiltX = Math.floor(Math.random() * 100) - 50; 
+            const tiltZ = Math.floor(Math.random() * 60) - 30;
+
+            // Կիրառում ենք անկանոն պտույտը
+            ball.style.transform = `rotateY(${rotationY}deg) rotateX(${tiltX}deg) rotateZ(${tiltZ}deg)`;
+
+            // 3.5 վայրկյան հետո շարիկը ուղղվում է
+            setTimeout(() => {
+                ball.style.transform = `rotateY(${rotationY}deg) rotateX(0deg) rotateZ(0deg)`;
+                spinning = false;
+            }, 3500);
+        }
+    </script>
+
+</body>
+</html>
