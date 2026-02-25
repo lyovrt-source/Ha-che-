@@ -2,9 +2,6 @@
 <html lang="hy">
 <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
     <meta charset="UTF-8">
     <title>Black & Yellow Destiny</title>
     <style>
@@ -24,52 +21,114 @@
             user-select: none;
         }
 
-        /* Իջեցված տեքստ՝ գույների փոփոխությամբ */
         .love-message {
             position: absolute;
-            top: 150px; /* Էլի իջեցրեցի */
-            font-size: 45px;
+            top: 40px;
+            font-size: 38px;
             font-weight: bold;
             text-align: center;
             padding: 15px 40px;
             border-radius: 50px;
-            backdrop-filter: blur(8px);
-            border: 3px solid #000;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 4px solid #000;
             z-index: 100;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            
-            /* Անիմացիաներ՝ բաբախյուն և գույների փոփոխություն */
-            animation: heartbeat 2.5s ease-in-out infinite, colorShift 6s linear infinite;
+            animation: heartbeat 2.5s ease-in-out infinite, colorChanging 5s linear infinite;
         }
 
-        /* Գույների փոփոխության էֆեկտը */
-        @keyframes colorShift {
-            0% { color: #000000; text-shadow: 2px 2px 10px rgba(255, 215, 0, 0.5); }
-            33% { color: #d40000; text-shadow: 2px 2px 15px rgba(255, 0, 0, 0.7); }
-            66% { color: #8e44ad; text-shadow: 2px 2px 15px rgba(142, 68, 173, 0.7); }
-            100% { color: #000000; text-shadow: 2px 2px 10px rgba(255, 215, 0, 0.5); }
+        @keyframes colorChanging {
+            0% { color: #000; border-color: #000; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+            33% { color: #d40000; border-color: #d40000; box-shadow: 0 0 30px rgba(212,0,0,0.4); }
+            66% { color: #8e44ad; border-color: #8e44ad; box-shadow: 0 0 30px rgba(142,68,173,0.4); }
+            100% { color: #000; border-color: #000; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
         }
 
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        /* Ձայնային բաժինը՝ ավելի բարձր և կենտրոնացված */
+        .voice-section {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin-top: -60px; /* Բարձրացված դիրք */
+            margin-bottom: 30px;
+            z-index: 110;
+            gap: 25px;
+            width: 100%;
+            height: 150px;
         }
 
-        @keyframes yellowGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Լսում եմ տեքստի կոնտեյները */
+        .status-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            visibility: hidden;
+            /* Տեքստը կենտրոնում պահելու համար */
+            transform: translateX(10px); /* Մոտավոր հավասարակշռում միկրոֆոնի հետ */
         }
 
+        .status-text {
+            color: #000;
+            font-weight: 900;
+            font-size: 36px;
+            text-shadow: 2px 2px 0px #fff;
+            white-space: nowrap;
+        }
+
+        .waves {
+            display: flex;
+            gap: 8px;
+            height: 50px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wave {
+            width: 9px;
+            height: 15px;
+            background: #000;
+            border-radius: 10px;
+            animation: wave-anim 0.8s ease-in-out infinite;
+        }
+
+        @keyframes wave-anim {
+            0%, 100% { height: 15px; }
+            50% { height: 45px; }
+        }
+
+        .mic-button {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #000;
+            border: 6px solid #f1c40f;
+            color: #f1c40f;
+            font-size: 55px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transition: all 0.2s;
+            outline: none;
+            margin-left: 180px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mic-button:active {
+            background: #d40000;
+            transform: scale(0.9);
+            border-color: #fff;
+        }
+
+        /* 700px Գնդակը */
         .container {
-            perspective: 1500px;
-            margin-top: 180px; 
+            perspective: 2500px;
         }
 
         .ball {
-            width: 500px; 
-            height: 500px;
+            width: 700px; 
+            height: 700px;
             position: relative;
             transform-style: preserve-3d;
             cursor: pointer;
@@ -84,43 +143,50 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 120px;
+            font-size: 160px;
             font-weight: 900;
             backface-visibility: hidden;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 50px rgba(0,0,0,0.3);
+            box-shadow: 0 0 80px rgba(0,0,0,0.6), inset 0 0 100px rgba(0,0,0,0.4);
         }
 
-        .front {
-            background: #f1c40f;
-            color: #000;
-            border: 40px solid #000;
-            transform: rotateY(0deg);
+        .front { background: #f1c40f; color: #000; border: 60px solid #000; }
+        .back { background: #000; color: #f1c40f; border: 60px solid #f1c40f; transform: rotateY(180deg); }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
         }
 
-        .back {
-            background: #000;
-            color: #f1c40f;
-            border: 40px solid #f1c40f;
-            transform: rotateY(180deg);
-        }
-
-        .side::after {
-            content: '';
-            position: absolute;
-            top: 10%;
-            left: 20%;
-            width: 40px;
-            height: 20px;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            filter: blur(10px);
+        @keyframes yellowGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     </style>
 </head>
 <body>
 
     <div class="love-message">
-        Մարի Լյովը քեզ շատ ա սիրում 😍
+        Ուտեմ քեզ աղջի 😍
+    </div>
+
+    <div class="voice-section">
+        <div class="status-container" id="statusBox">
+            <div class="status-text">Լսում եմ...</div>
+            <div class="waves">
+                <div class="wave" style="animation-delay: 0.1s"></div>
+                <div class="wave" style="animation-delay: 0.3s"></div>
+                <div class="wave" style="animation-delay: 0.5s"></div>
+                <div class="wave" style="animation-delay: 0.2s"></div>
+                <div class="wave" style="animation-delay: 0.4s"></div>
+            </div>
+        </div>
+
+        <button class="mic-button" id="micBtn" 
+                onmousedown="startPress()" 
+                onmouseup="endPress()" 
+                ontouchstart="startPress()" 
+                ontouchend="endPress()">🎤</button>
     </div>
 
     <div class="container">
@@ -131,37 +197,38 @@
     </div>
 
     <script>
-        // Քեշի մաքրման ֆունկցիան
-        window.onload = function() {
-            localStorage.clear();
-            sessionStorage.clear();
-            if(!window.location.hash.includes('no-cache')) {
-                window.location.hash = 'no-cache';
-                window.location.reload(true);
-            }
-        };
-
         let rotationY = 0;
         let spinning = false;
+        let isPressed = false;
+
+        function startPress() {
+            if (spinning) return;
+            isPressed = true;
+            document.getElementById('statusBox').style.visibility = 'visible';
+        }
+
+        function endPress() {
+            if (!isPressed || spinning) return;
+            isPressed = false;
+            document.getElementById('statusBox').style.visibility = 'hidden';
+            crazySpin();
+        }
 
         function crazySpin() {
             if (spinning) return;
             spinning = true;
-
             const ball = document.getElementById('ball');
             
-            const rounds = (Math.floor(Math.random() * 5) + 7) * 360; 
+            const rounds = (Math.floor(Math.random() * 6) + 8) * 360; 
             const side = Math.random() > 0.5 ? 0 : 180;
             
             rotationY += rounds + side + (360 - (rotationY % 360));
+            const tiltX = Math.floor(Math.random() * 40) - 20; 
 
-            const tiltX = Math.floor(Math.random() * 100) - 50; 
-            const tiltZ = Math.floor(Math.random() * 60) - 30;
-
-            ball.style.transform = `rotateY(${rotationY}deg) rotateX(${tiltX}deg) rotateZ(${tiltZ}deg)`;
+            ball.style.transform = `rotateY(${rotationY}deg) rotateX(${tiltX}deg)`;
 
             setTimeout(() => {
-                ball.style.transform = `rotateY(${rotationY}deg) rotateX(0deg) rotateZ(0deg)`;
+                ball.style.transform = `rotateY(${rotationY}deg) rotateX(0deg)`;
                 spinning = false;
             }, 3500);
         }
